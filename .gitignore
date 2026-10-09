@@ -1,0 +1,13 @@
+# Environnement Python
+.venv/
+
+# Fichiers Python temporaires
+__pycache__/
+*.py[cod]
+
+# Variables d'environnement et secrets
+.env
+
+# Tests et outils
+.pytest_cache/
+.ruff_cache/
