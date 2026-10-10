@@ -1,0 +1,169 @@
+
+@startuml
+title Generative Banking UI - Database Model
+
+skinparam classAttributeIconSize 0
+hide methods
+
+' CUSTOMERS AND ADVISORS
+
+class Customer {
+  +id : UUID <<PK>>
+  advisor_id : UUID <<FK>>
+  first_name : String
+  last_name : String
+  email : String
+  phone : String
+  created_at : DateTime
+}
+
+class Advisor {
+  +id : UUID <<PK>>
+  first_name : String
+  last_name : String
+  email : String
+  phone : String
+  specialization : String
+  status : String
+}
+
+Advisor "0..1" -- "0..*" Customer : advises
+
+' BANK ACCOUNTS
+
+class Account {
+  +id : UUID <<PK>>
+  customer_id : UUID <<FK>>
+  account_number : String
+  account_type : String
+  balance : Decimal
+  currency : String
+  status : String
+  created_at : DateTime
+}
+
+Customer "1" -- "0..*" Account : owns
+
+' TRANSACTIONS AND CATEGORIES
+
+class BankTransaction {
+  +id : UUID <<PK>>
+  account_id : UUID <<FK>>
+  category_id : UUID <<FK>>
+  type : String
+  amount : Decimal
+  currency : String
+  description : String
+  merchant : String
+  transaction_date : DateTime
+  status : String
+}
+
+class Category {
+  +id : UUID <<PK>>
+  name : String
+  description : String
+}
+
+Account "1" -- "0..*" BankTransaction : records
+Category "1" -- "0..*" BankTransaction : classifies
+
+' TRANSFER SIMULATIONS
+
+class TransferSimulation {
+  +id : UUID <<PK>>
+  source_account_id : UUID <<FK>>
+  destination_account_id : UUID <<FK>>
+  amount : Decimal
+  currency : String
+  reason : String
+  status : String
+  created_at : DateTime
+  confirmed_at : DateTime
+}
+
+Account "1" -- "0..*" TransferSimulation : source
+Account "1" -- "0..*" TransferSimulation : destination
+
+' PRODUCTS AND SUBSCRIPTIONS
+
+class BankingProduct {
+  +id : UUID <<PK>>
+  name : String
+  product_type : String
+  description : String
+  monthly_fee : Decimal
+  status : String
+}
+
+class Subscription {
+  +id : UUID <<PK>>
+  customer_id : UUID <<FK>>
+  product_id : UUID <<FK>>
+  status : String
+  start_date : DateTime
+  end_date : DateTime
+}
+
+Customer "1" -- "0..*" Subscription : subscribes
+BankingProduct "1" -- "0..*" Subscription : concerns
+
+' ADVISOR MESSAGING
+
+class Conversation {
+  +id : UUID <<PK>>
+  customer_id : UUID <<FK>>
+  advisor_id : UUID <<FK>>
+  subject : String
+  status : String
+  created_at : DateTime
+  closed_at : DateTime
+}
+
+class Message {
+  +id : UUID <<PK>>
+  conversation_id : UUID <<FK>>
+  sender_type : String
+  sender_id : UUID
+  content : Text
+  sent_at : DateTime
+  read_at : DateTime
+}
+
+Customer "1" -- "0..*" Conversation : opens
+Advisor "1" -- "0..*" Conversation : handles
+Conversation "1" *-- "0..*" Message : contains
+
+' SUPPORT REQUESTS
+
+class SupportRequest {
+  +id : UUID <<PK>>
+  customer_id : UUID <<FK>>
+  advisor_id : UUID <<FK>>
+  category : String
+  description : Text
+  priority : String
+  status : String
+  created_at : DateTime
+  resolved_at : DateTime
+}
+
+Customer "1" -- "0..*" SupportRequest : submits
+Advisor "0..1" -- "0..*" SupportRequest : assigned to
+
+' PERSONAL BUDGETS
+
+class Budget {
+  +id : UUID <<PK>>
+  customer_id : UUID <<FK>>
+  category_id : UUID <<FK>>
+  monthly_limit : Decimal
+  currency : String
+  period_start : Date
+  period_end : Date
+}
+
+Customer "1" -- "0..*" Budget : defines
+Category "1" -- "0..*" Budget : targets
+
+@enduml
