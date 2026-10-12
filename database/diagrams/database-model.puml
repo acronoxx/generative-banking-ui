@@ -1,40 +1,95 @@
 
 @startuml
-title Generative Banking UI - Database Model
-
-skinparam classAttributeIconSize 0
+title Generative Banking UI - Complete Database Model
 hide methods
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam defaultFontName Arial
 
-' CUSTOMERS AND ADVISORS
+' ==================================================
+' 1. CUSTOMERS, ADVISORS AND ACCESS SECURITY
+' ==================================================
+package "Customers & Access" {
 
 class Customer {
-  +id : UUID <<PK>>
-  advisor_id : UUID <<FK>>
+  +id : int <<PK>>
+  advisor_id : int <<FK, nullable>>
   first_name : String
   last_name : String
   email : String
   phone : String
+  adress : String
+  Country : String
+  city : String
+  postal_code : String
+  date_of_birth : DateTime
   created_at : DateTime
 }
 
 class Advisor {
-  +id : UUID <<PK>>
-  first_name : String
-  last_name : String
+  +id : int <<PK>>
+  name : String
   email : String
   phone : String
   specialization : String
   status : String
 }
 
-Advisor "0..1" -- "0..*" Customer : advises
+class User {
+  +id : int <<PK>>
+  username : String
+  app_pin_hash : String
+  app_pin_failed_attempts : int
+  app_pin_locked_until : DateTime
+  role : String
+  customer_id : int <<FK, nullable>>
+  advisor_id : int <<FK, nullable>>
+  status : String
+  created_at : DateTime
+}
 
-' BANK ACCOUNTS
+class UserSession {
+  +id : int <<PK>>
+  user_id : int <<FK>>
+  session_token_hash : String
+  created_at : DateTime
+  expires_at : DateTime
+  revoked_at : DateTime
+}
+
+class AuditLog {
+  +id : int <<PK>>
+  user_id : int <<FK, nullable>>
+  action : String
+  entity_type : String
+  entity_id : int
+  details : Text
+  created_at : DateTime
+}
+
+Customer "0..*" -- "0..1" Advisor : advised_by
+Customer "0..1" -- "0..*" User : app_access
+Advisor "0..1" -- "0..*" User : app_access
+User "1" -- "0..*" UserSession : has
+User "0..1" -- "0..*" AuditLog : generates
+}
+
+' ==================================================
+' 2. ACCOUNTS, IBAN/RIB AND TRANSACTIONS
+' ==================================================
+package "Accounts & Transactions" {
 
 class Account {
-  +id : UUID <<PK>>
-  customer_id : UUID <<FK>>
+  +id : int <<PK>>
+  customer_id : int <<FK>>
   account_number : String
+  iban : String <<UNIQUE>>
+  bic : String
+  bank_code : String
+  branch_code : String
+  rib_key : String
   account_type : String
   balance : Decimal
   currency : String
@@ -42,38 +97,42 @@ class Account {
   created_at : DateTime
 }
 
-Customer "1" -- "0..*" Account : owns
-
-' TRANSACTIONS AND CATEGORIES
+class Category {
+  +id : int <<PK>>
+  name : String
+  description : Text
+}
 
 class BankTransaction {
-  +id : UUID <<PK>>
-  account_id : UUID <<FK>>
-  category_id : UUID <<FK>>
+  +id : int <<PK>>
+  account_id : int <<FK>>
+  category_id : int <<FK, nullable>>
+  card_id : int <<FK, nullable>>
   type : String
   amount : Decimal
   currency : String
   description : String
   merchant : String
+  reference : String
   transaction_date : DateTime
+  booked_at : DateTime
   status : String
 }
 
-class Category {
-  +id : UUID <<PK>>
-  name : String
-  description : String
+class TransactionFee {
+  +id : int <<PK>>
+  transaction_id : int <<FK>>
+  amount : Decimal
+  currency : String
+  reason : String
+  status : String
 }
 
-Account "1" -- "0..*" BankTransaction : records
-Category "1" -- "0..*" BankTransaction : classifies
-
-' TRANSFER SIMULATIONS
-
 class TransferSimulation {
-  +id : UUID <<PK>>
-  source_account_id : UUID <<FK>>
-  destination_account_id : UUID <<FK>>
+  +id : int <<PK>>
+  source_account_id : int <<FK>>
+  destination_account_id : int <<FK, nullable>>
+  beneficiary_id : int <<FK, nullable>>
   amount : Decimal
   currency : String
   reason : String
@@ -82,38 +141,316 @@ class TransferSimulation {
   confirmed_at : DateTime
 }
 
-Account "1" -- "0..*" TransferSimulation : source
-Account "1" -- "0..*" TransferSimulation : destination
+class Beneficiary {
+  +id : int <<PK>>
+  customer_id : int <<FK>>
+  name : String
+  iban : String
+  bic : String
+  status : String
+  created_at : DateTime
+  validated_at : DateTime
+}
 
-' PRODUCTS AND SUBSCRIPTIONS
+class ScheduledTransfer {
+  +id : int <<PK>>
+  account_id : int <<FK>>
+  beneficiary_id : int <<FK>>
+  amount : Decimal
+  currency : String
+  frequency : String
+  next_execution_at : DateTime
+  end_date : Date
+  status : String
+  created_at : DateTime
+}
+
+Customer "1" -- "0..*" Account : owns
+Account "1" -- "0..*" BankTransaction : records
+Category "0..1" -- "0..*" BankTransaction : classifies
+BankTransaction "1" -- "0..*" TransactionFee : incurs
+Account "1" -- "0..*" TransferSimulation : source
+Account "0..1" -- "0..*" TransferSimulation : destination
+Beneficiary "0..1" -- "0..*" TransferSimulation : receives
+Customer "1" -- "0..*" Beneficiary : manages
+Account "1" -- "0..*" ScheduledTransfer : schedules
+Beneficiary "1" -- "0..*" ScheduledTransfer : receives
+}
+
+' ==================================================
+' 3. BANKING PRODUCTS, CARDS AND CARD PIN
+' ==================================================
+package "Products & Cards" {
 
 class BankingProduct {
-  +id : UUID <<PK>>
+  +id : int <<PK>>
   name : String
   product_type : String
-  description : String
+  description : Text
   monthly_fee : Decimal
   status : String
 }
 
 class Subscription {
-  +id : UUID <<PK>>
-  customer_id : UUID <<FK>>
-  product_id : UUID <<FK>>
+  +id : int <<PK>>
+  customer_id : int <<FK>>
+  product_id : int <<FK>>
   status : String
-  start_date : DateTime
-  end_date : DateTime
+  start_date : Date
+  end_date : Date
+}
+
+class Card {
+  +id : int <<PK>>
+  account_id : int <<FK>>
+  subscription_id : int <<FK, nullable>>
+  card_token : String
+  card_number_test : String
+  last_four_digits : String
+  expiry_month : int
+  expiry_year : int
+  card_type : String
+  physical_type : String
+  daily_payment_limit : Decimal
+  monthly_payment_limit : Decimal
+  daily_withdrawal_limit : Decimal
+  currency : String
+  status : String
+  valid_from : Date
+  expires_at : Date
+  created_at : DateTime
+}
+
+class CardPinCredential {
+  +id : int <<PK>>
+  card_id : int <<FK, UNIQUE>>
+  encrypted_pin : String
+  encryption_key_id : String
+  pin_status : String
+  failed_attempts : int
+  locked_until : DateTime
+  created_at : DateTime
+  updated_at : DateTime
+}
+
+class CardLimitHistory {
+  +id : int <<PK>>
+  card_id : int <<FK>>
+  limit_type : String
+  old_limit : Decimal
+  new_limit : Decimal
+  changed_by_user_id : int <<FK, nullable>>
+  changed_at : DateTime
+  reason : String
 }
 
 Customer "1" -- "0..*" Subscription : subscribes
-BankingProduct "1" -- "0..*" Subscription : concerns
+BankingProduct "1" -- "0..*" Subscription : defines
+Account "1" -- "0..*" Card : linked_to
+Subscription "0..1" -- "0..*" Card : enables
+Card "1" -- "0..1" CardPinCredential : secure_test_pin
+Card "1" -- "0..*" CardLimitHistory : limit_changes
+User "0..1" -- "0..*" CardLimitHistory : changes
+Card "0..1" -- "0..*" BankTransaction : used_for
+}
 
-' ADVISOR MESSAGING
+' ==================================================
+' 4. CHEQUE BOOKS, CHEQUES AND OPERATIONS
+' ==================================================
+package "Cheques" {
+
+class ChequeBook {
+  +id : int <<PK>>
+  account_id : int <<FK>>
+  first_cheque_number : String
+  last_cheque_number : String
+  requested_at : DateTime
+  issued_at : DateTime
+  received_at : DateTime
+  status : String
+}
+
+class Cheque {
+  +id : int <<PK>>
+  account_id : int <<FK>>
+  cheque_book_id : int <<FK, nullable>>
+  cheque_number : String
+  amount : Decimal
+  currency : String
+  payee_name : String
+  issue_date : Date
+  presented_at : DateTime
+  paid_at : DateTime
+  status : String
+}
+
+class ChequeOperation {
+  +id : int <<PK>>
+  cheque_id : int <<FK>>
+  operation_type : String
+  operation_date : DateTime
+  reason : String
+  status : String
+  user_id : int <<FK, nullable>>
+}
+
+Account "1" -- "0..*" ChequeBook : has
+ChequeBook "0..1" -- "0..*" Cheque : contains
+Account "1" -- "0..*" Cheque : issues
+Cheque "1" -- "0..*" ChequeOperation : history
+User "0..1" -- "0..*" ChequeOperation : performs
+}
+
+' ==================================================
+' 5. COMMERCIAL OFFERS, EVENTS AND REFERRALS
+' ==================================================
+package "Offers & Referrals" {
+
+class Offer {
+  +id : int <<PK>>
+  title : String
+  description : Text
+  offer_type : String
+  start_date : DateTime
+  end_date : DateTime
+  reward_amount : Decimal
+  reward_currency : String
+  eligibility_rules : Text
+  terms_and_conditions : Text
+  status : String
+}
+
+class CustomerOffer {
+  +id : int <<PK>>
+  customer_id : int <<FK>>
+  offer_id : int <<FK>>
+  status : String
+  claimed_at : DateTime
+  completed_at : DateTime
+  rewarded_at : DateTime
+}
+
+class Referral {
+  +id : int <<PK>>
+  offer_id : int <<FK, nullable>>
+  referrer_customer_id : int <<FK>>
+  referred_customer_id : int <<FK, nullable>>
+  referral_code : String
+  status : String
+  created_at : DateTime
+  completed_at : DateTime
+  rewarded_at : DateTime
+}
+
+Customer "1" -- "0..*" CustomerOffer : receives
+Offer "1" -- "0..*" CustomerOffer : tracks
+Offer "0..1" -- "0..*" Referral : supports
+Customer "1" -- "0..*" Referral : refers
+}
+
+' ==================================================
+' 6. CUSTOMER DOCUMENTS AND DOCUMENT REQUESTS
+' ==================================================
+package "Documents" {
+
+class CustomerDocument {
+  +id : int <<PK>>
+  customer_id : int <<FK>>
+  account_id : int <<FK, nullable>>
+  subscription_id : int <<FK, nullable>>
+  document_type : String
+  title : String
+  file_reference : String
+  mime_type : String
+  issued_at : DateTime
+  expires_at : DateTime
+  status : String
+}
+
+class DocumentRequest {
+  +id : int <<PK>>
+  customer_id : int <<FK>>
+  document_type : String
+  reason : Text
+  requested_at : DateTime
+  due_date : Date
+  submitted_at : DateTime
+  reviewed_at : DateTime
+  status : String
+  reviewed_by_user_id : int <<FK, nullable>>
+}
+
+Customer "1" -- "0..*" CustomerDocument : owns
+Account "0..1" -- "0..*" CustomerDocument : relates_to
+Subscription "0..1" -- "0..*" CustomerDocument : documents
+Customer "1" -- "0..*" DocumentRequest : must_provide
+User "0..1" -- "0..*" DocumentRequest : reviews
+}
+
+' ==================================================
+' 7. INSURANCE PRODUCTS, POLICIES AND CLAIMS
+' ==================================================
+package "Insurance" {
+
+class InsuranceProduct {
+  +id : int <<PK>>
+  name : String
+  insurance_type : String
+  insurer_name : String
+  description : Text
+  eligibility_rules : Text
+  status : String
+}
+
+class InsurancePolicy {
+  +id : int <<PK>>
+  customer_id : int <<FK>>
+  insurance_product_id : int <<FK>>
+  policy_number : String
+  start_date : Date
+  end_date : Date
+  premium_amount : Decimal
+  payment_frequency : String
+  status : String
+}
+
+class InsuranceCoverage {
+  +id : int <<PK>>
+  insurance_product_id : int <<FK>>
+  name : String
+  description : Text
+  coverage_limit : Decimal
+  deductible : Decimal
+  waiting_period_days : int
+  exclusions : Text
+}
+
+class InsuranceClaim {
+  +id : int <<PK>>
+  policy_id : int <<FK>>
+  claim_date : DateTime
+  description : Text
+  claimed_amount : Decimal
+  approved_amount : Decimal
+  status : String
+  resolved_at : DateTime
+}
+
+Customer "1" -- "0..*" InsurancePolicy : holds
+InsuranceProduct "1" -- "0..*" InsurancePolicy : defines
+InsuranceProduct "1" -- "0..*" InsuranceCoverage : includes
+InsurancePolicy "1" -- "0..*" InsuranceClaim : receives
+}
+
+' ==================================================
+' 8. CONVERSATIONS, MESSAGES, SUPPORT AND DISPUTES
+' ==================================================
+package "Messaging & Support" {
 
 class Conversation {
-  +id : UUID <<PK>>
-  customer_id : UUID <<FK>>
-  advisor_id : UUID <<FK>>
+  +id : int <<PK>>
+  customer_id : int <<FK>>
+  advisor_id : int <<FK, nullable>>
   subject : String
   status : String
   created_at : DateTime
@@ -121,25 +458,19 @@ class Conversation {
 }
 
 class Message {
-  +id : UUID <<PK>>
-  conversation_id : UUID <<FK>>
+  +id : int <<PK>>
+  conversation_id : int <<FK>>
   sender_type : String
-  sender_id : UUID
+  sender_id : int
   content : Text
   sent_at : DateTime
   read_at : DateTime
 }
 
-Customer "1" -- "0..*" Conversation : opens
-Advisor "1" -- "0..*" Conversation : handles
-Conversation "1" *-- "0..*" Message : contains
-
-' SUPPORT REQUESTS
-
 class SupportRequest {
-  +id : UUID <<PK>>
-  customer_id : UUID <<FK>>
-  advisor_id : UUID <<FK>>
+  +id : int <<PK>>
+  customer_id : int <<FK>>
+  advisor_id : int <<FK, nullable>>
   category : String
   description : Text
   priority : String
@@ -148,22 +479,57 @@ class SupportRequest {
   resolved_at : DateTime
 }
 
-Customer "1" -- "0..*" SupportRequest : submits
-Advisor "0..1" -- "0..*" SupportRequest : assigned to
+class Dispute {
+  +id : int <<PK>>
+  customer_id : int <<FK>>
+  transaction_id : int <<FK>>
+  reason : String
+  description : Text
+  status : String
+  opened_at : DateTime
+  resolved_at : DateTime
+  resolution : Text
+}
 
-' PERSONAL BUDGETS
+Customer "1" -- "0..*" Conversation : starts
+Advisor "0..1" -- "0..*" Conversation : handles
+Conversation "1" *-- "0..*" Message : contains
+Customer "1" -- "0..*" SupportRequest : creates
+Advisor "0..1" -- "0..*" SupportRequest : handles
+Customer "1" -- "0..*" Dispute : opens
+BankTransaction "1" -- "0..*" Dispute : concerns
+}
+
+' ==================================================
+' 9. BUDGETS AND NOTIFICATIONS
+' ==================================================
+package "Budget & Notifications" {
 
 class Budget {
-  +id : UUID <<PK>>
-  customer_id : UUID <<FK>>
-  category_id : UUID <<FK>>
+  +id : int <<PK>>
+  customer_id : int <<FK>>
+  category_id : int <<FK>>
   monthly_limit : Decimal
   currency : String
   period_start : Date
   period_end : Date
 }
 
-Customer "1" -- "0..*" Budget : defines
-Category "1" -- "0..*" Budget : targets
+class Notification {
+  +id : int <<PK>>
+  customer_id : int <<FK>>
+  notification_type : String
+  title : String
+  message : Text
+  channel : String
+  status : String
+  created_at : DateTime
+  read_at : DateTime
+}
+
+Customer "1" -- "0..*" Budget : sets
+Category "1" -- "0..*" Budget : limits
+Customer "1" -- "0..*" Notification : receives
+}
 
 @enduml

@@ -11,3 +11,10 @@ __pycache__/
 # Tests et outils
 .pytest_cache/
 .ruff_cache/
+
+.env.*
+!.env.example
+
+generative_banking_ui.backup
+*.dump
+*.sql
