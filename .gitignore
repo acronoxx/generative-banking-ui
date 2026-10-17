@@ -15,6 +15,37 @@ __pycache__/
 .env.*
 !.env.example
 
+# Expérimentations : environnements, dépendances et traces locales
+experiments/**/venv/
+experiments/**/env/
+node_modules/
+.crewai/
+
+# Front-end et TypeScript : builds et caches
+dist/
+*.tsbuildinfo
+*.log
+
+# Java (Maven)
+target/
+
+# Fichiers de compilation LaTeX
+*.aux
+*.fdb_latexmk
+*.fls
+*.lof
+*.lot
+*.out
+*.toc
+*.synctex.gz
+
 generative_banking_ui.backup
 *.dump
 *.sql
+
+# Sources LaTeX de l'état de l'art : seul le PDF (docs/etat_de_l_art.pdf) est versionné
+docs/etat_de_l_art/
+*.tex
+
+# Base locale des traces de Phoenix (essai d'observabilité)
+experiments/observabilite/donnees-phoenix/

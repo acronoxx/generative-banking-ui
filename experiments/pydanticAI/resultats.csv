@@ -1,0 +1,6 @@
+framework;question;duree_mediane_s;duree_min_s;duree_max_s;appels_modele;tokens_entree;tokens_sortie;reussite;erreurs
+Pydantic AI;Quel est le solde de mon compte courant ?;1.23;1.14;1.71;2;324;33;10/10;0
+Pydantic AI;Quelles dépenses dépassent 500 € ?;1.34;1.12;1.47;2;348;67;10/10;0
+  essai en échec : ModelHTTPError : status_code: 429, model_name: gemini-3.5-flash-lite, body: {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this
+Pydantic AI;Quel est mon solde courant, et quelles dépenses dépassent 500 € ?;1.41;1.23;3.13;2;398;99;9/9;1
+Pydantic AI;Bonjour, que peux-tu faire pour moi ?;0.78;0.69;1.11;1;143;52;10/10;0

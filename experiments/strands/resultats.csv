@@ -1,0 +1,5 @@
+framework;question;duree_mediane_s;duree_min_s;duree_max_s;appels_modele;tokens_entree;tokens_sortie;reussite;erreurs
+AWS Strands Agents;Quel est le solde de mon compte courant ?;1.15;1.05;1.44;2;357;33;10/10;0
+AWS Strands Agents;Quelles dépenses dépassent 500 € ?;1.58;1.30;2.32;2;381;65;10/10;0
+AWS Strands Agents;Quel est mon solde courant, et quelles dépenses dépassent 500 € ?;1.49;1.32;2.10;2;432;99;10/10;0
+AWS Strands Agents;Bonjour, que peux-tu faire pour moi ?;0.86;0.71;1.34;1;159;52;10/10;0
