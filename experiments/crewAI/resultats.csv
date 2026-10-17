@@ -1,0 +1,5 @@
+framework;question;duree_mediane_s;duree_min_s;duree_max_s;appels_modele;tokens_entree;tokens_sortie;reussite;erreurs
+CrewAI (traces désactivées);Quel est le solde de mon compte courant ?;1.15;0.89;3.33;2;400;33;10/10;0
+CrewAI (traces désactivées);Quelles dépenses dépassent 500 € ?;1.16;1.01;3.55;2;422;67;10/10;0
+CrewAI (traces désactivées);Quel est mon solde courant, et quelles dépenses dépassent 500 € ?;1.25;1.07;1.43;2;472;99;10/10;0
+CrewAI (traces désactivées);Bonjour, que peux-tu faire pour moi ?;0.80;0.71;1.10;1;182;68;10/10;0

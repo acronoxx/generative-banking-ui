@@ -1,0 +1,177 @@
+{
+  "root": "Pile",
+  "components": {
+    "Pile": {
+      "signature": "Pile(elements: (CarteSolde | ListeTransactions | ConfirmationVirement | Texte)[])",
+      "description": "Conteneur racine : empile verticalement ses éléments."
+    },
+    "CarteSolde": {
+      "signature": "CarteSolde(compte: string, solde: number)",
+      "description": "Affiche le solde d'un compte."
+    },
+    "ListeTransactions": {
+      "signature": "ListeTransactions(titre: string, transactions: Transaction[])",
+      "description": "Liste de transactions avec un titre."
+    },
+    "Transaction": {
+      "signature": "Transaction(libelle: string, montant: number)",
+      "description": "Une ligne de transaction : libellé et montant en euros."
+    },
+    "ConfirmationVirement": {
+      "signature": "ConfirmationVirement(montant: number, beneficiaire: string)",
+      "description": "Récapitulatif d'un virement à faire valider par l'utilisateur. Ne jamais considérer le virement comme effectué."
+    },
+    "Texte": {
+      "signature": "Texte(texte: string)",
+      "description": "Paragraphe de texte."
+    }
+  },
+  "schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "Pile": {
+        "$ref": "#/$defs/Pile"
+      },
+      "CarteSolde": {
+        "$ref": "#/$defs/CarteSolde"
+      },
+      "ListeTransactions": {
+        "$ref": "#/$defs/ListeTransactions"
+      },
+      "Transaction": {
+        "$ref": "#/$defs/Transaction"
+      },
+      "ConfirmationVirement": {
+        "$ref": "#/$defs/ConfirmationVirement"
+      },
+      "Texte": {
+        "$ref": "#/$defs/Texte"
+      }
+    },
+    "required": [
+      "Pile",
+      "CarteSolde",
+      "ListeTransactions",
+      "Transaction",
+      "ConfirmationVirement",
+      "Texte"
+    ],
+    "additionalProperties": false,
+    "$defs": {
+      "Pile": {
+        "type": "object",
+        "properties": {
+          "elements": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/CarteSolde"
+                },
+                {
+                  "$ref": "#/$defs/ListeTransactions"
+                },
+                {
+                  "$ref": "#/$defs/ConfirmationVirement"
+                },
+                {
+                  "$ref": "#/$defs/Texte"
+                }
+              ]
+            }
+          }
+        },
+        "required": [
+          "elements"
+        ],
+        "additionalProperties": false,
+        "description": "Conteneur racine : empile verticalement ses éléments."
+      },
+      "CarteSolde": {
+        "type": "object",
+        "properties": {
+          "compte": {
+            "type": "string"
+          },
+          "solde": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "compte",
+          "solde"
+        ],
+        "additionalProperties": false,
+        "description": "Affiche le solde d'un compte."
+      },
+      "ListeTransactions": {
+        "type": "object",
+        "properties": {
+          "titre": {
+            "type": "string"
+          },
+          "transactions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/Transaction"
+            }
+          }
+        },
+        "required": [
+          "titre",
+          "transactions"
+        ],
+        "additionalProperties": false,
+        "description": "Liste de transactions avec un titre."
+      },
+      "Transaction": {
+        "type": "object",
+        "properties": {
+          "libelle": {
+            "type": "string"
+          },
+          "montant": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "libelle",
+          "montant"
+        ],
+        "additionalProperties": false,
+        "description": "Une ligne de transaction : libellé et montant en euros."
+      },
+      "ConfirmationVirement": {
+        "type": "object",
+        "properties": {
+          "montant": {
+            "type": "number"
+          },
+          "beneficiaire": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "montant",
+          "beneficiaire"
+        ],
+        "additionalProperties": false,
+        "description": "Récapitulatif d'un virement à faire valider par l'utilisateur. Ne jamais considérer le virement comme effectué."
+      },
+      "Texte": {
+        "type": "object",
+        "properties": {
+          "texte": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "texte"
+        ],
+        "additionalProperties": false,
+        "description": "Paragraphe de texte."
+      }
+    }
+  }
+}

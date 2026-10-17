@@ -1,0 +1,9 @@
+framework;question;duree_mediane_s;duree_min_s;duree_max_s;appels_modele;tokens_entree;tokens_sortie;reussite;erreurs
+Vercel AI SDK;Quel est le solde de mon compte courant ?;1.03;0.98;1.22;2;328;33;10/10;0
+Vercel AI SDK;Quelles dépenses dépassent 500 € ?;1.15;1.03;1.81;2;352;64;10/10;0
+Vercel AI SDK;Quel est mon solde courant, et quelles dépenses dépassent 500 € ?;1.29;1.11;1.53;2;408;99;10/10;0
+  essai en échec : AI_APICallError : You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usa
+  essai en échec : AI_APICallError : You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usa
+  essai en échec : AI_APICallError : You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usa
+  essai en échec : AI_APICallError : You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usa
+Vercel AI SDK;Bonjour, que peux-tu faire pour moi ?;0.72;0.62;0.83;1;142;64;6/6;4

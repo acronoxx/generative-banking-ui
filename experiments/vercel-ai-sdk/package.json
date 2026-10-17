@@ -1,0 +1,19 @@
+{
+  "name": "vercel-ai-sdk",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "measure": "node measure.ts"
+  },
+  "dependencies": {
+    "@ai-sdk/google": "^4.0.99",
+    "ai": "^7.0.143",
+    "dotenv": "^18.0.8",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "typescript": "^7.0.2"
+  }
+}
