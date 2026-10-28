@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@ag-ui/client": "^1.0.2",
+    "@copilotkit/a2ui-renderer": "^1.79.0",
     "@copilotkit/react-core": "^1.79.0",
     "@copilotkit/runtime": "^1.79.0",
     "express": "^5.3.0",
