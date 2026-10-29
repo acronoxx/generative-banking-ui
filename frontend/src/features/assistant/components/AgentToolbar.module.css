@@ -1,0 +1,71 @@
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 63px;
+  padding: 16px 32px;
+  gap: 20px;
+  border-bottom: 1px solid var(--color-border);
+  background: linear-gradient(105deg, #faf9fc, #fff5ef);
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.title svg {
+  color: var(--color-purple);
+}
+
+.selector {
+  display: flex;
+  align-items: center;
+  position: relative;
+  color: var(--color-purple);
+}
+
+.selector select {
+  appearance: none;
+  padding: 6px 34px 6px 12px;
+  border: 0;
+  border-radius: 20px;
+  color: var(--color-purple);
+  background: #f7f3fb;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.selector svg {
+  position: absolute;
+  right: 10px;
+  pointer-events: none;
+}
+
+@media (max-width: 900px) {
+  .toolbar {
+    padding-inline: 24px;
+  }
+
+}
+
+@media (max-width: 600px) {
+  .toolbar {
+    padding: 14px 18px;
+    gap: 12px;
+  }
+
+  .title {
+    gap: 8px;
+    font-size: 12px;
+  }
+
+  .selector select {
+    font-size: 11px;
+    padding-left: 8px;
+  }
+
+}

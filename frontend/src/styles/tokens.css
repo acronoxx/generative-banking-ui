@@ -1,0 +1,16 @@
+:root {
+  color-scheme: light;
+  --color-text: #2e174d;
+  --color-muted: #77717e;
+  --color-purple: #561ca0;
+  --color-purple-dark: #4c1d7d;
+  --color-purple-light: #f4eff9;
+  --color-border: #e4daee;
+  --color-action-border: #c7a7ed;
+  --color-page: #fcfafd;
+  --color-white: #fff;
+  --brand-gradient: linear-gradient(100deg, #4e1d80 0%, #d50032 57%, #f58b00 100%);
+  --radius-card: 13px;
+  --radius-control: 8px;
+  --radius-panel: 20px;
+}

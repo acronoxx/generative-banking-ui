@@ -1,0 +1,177 @@
+.header {
+  background: var(--color-white);
+  border-bottom: 4px solid transparent;
+  border-image: var(--brand-gradient) 1;
+}
+
+.inner {
+  height: 88px;
+  display: grid;
+  grid-template-columns: 400px 1fr 245px;
+  align-items: center;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  width: fit-content;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.divider {
+  width: 1px;
+  height: 27px;
+  background: var(--color-border);
+}
+
+.brand > .divider {
+  margin-left: 9px;
+}
+
+.product {
+  font-size: 25px;
+  font-weight: 650;
+  letter-spacing: -.5px;
+}
+
+.navigation {
+  display: flex;
+  justify-content: center;
+  gap: 34px;
+  align-self: stretch;
+}
+
+.navigation a, .navigation button {
+  display: flex;
+  align-items: center;
+  position: relative;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: #6d6477;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.navigation .active {
+  color: var(--color-purple);
+  font-weight: 600;
+}
+
+.active::after {
+  content: '';
+  position: absolute;
+  bottom: 12px;
+  inset-inline: 0;
+  height: 3px;
+  background: var(--color-purple);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 24px;
+}
+
+.help {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-purple);
+}
+
+.profile {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid var(--color-action-border);
+  border-radius: 50%;
+  background: #f8f5fb;
+  color: var(--color-purple);
+}
+
+.help:hover, .navigation button:hover {
+  color: var(--color-purple-dark);
+}
+
+.profile:hover {
+  background: var(--color-purple-light);
+}
+
+@media (max-width: 1100px) {
+  .inner {
+    grid-template-columns: auto 1fr auto;
+    gap: 28px;
+  }
+
+  .brand {
+    gap: 18px;
+  }
+
+  .brand > .divider {
+    margin-left: 0;
+  }
+
+  .actions {
+    gap: 16px;
+  }
+
+}
+
+@media (max-width: 760px) {
+  .inner {
+    height: auto;
+    min-height: 88px;
+    grid-template-columns: 1fr auto;
+    gap: 0;
+    padding-top: 18px;
+  }
+
+  .navigation {
+    grid-row: 2;
+    grid-column: 1 / -1;
+    height: 52px;
+    justify-content: flex-start;
+  }
+
+  .active::after {
+    bottom: 4px;
+  }
+
+  .actions .divider {
+    display: none;
+  }
+
+}
+
+@media (max-width: 600px) {
+  .brand {
+    gap: 12px;
+  }
+
+  .product {
+    font-size: 20px;
+  }
+
+  .brand .divider {
+    height: 22px;
+  }
+
+  .help {
+    font-size: 0;
+    gap: 0;
+  }
+
+  .actions {
+    gap: 12px;
+  }
+
+}

@@ -1,0 +1,108 @@
+.composer {
+  display: flex;
+  flex-direction: column;
+  min-height: 116px;
+  margin-top: 28px;
+  padding: 14px 15px;
+  border: 1px solid var(--color-purple);
+  border-radius: var(--radius-card);
+  background: var(--color-white);
+}
+
+.composer:focus-within {
+  box-shadow: 0 0 0 2px #561ca012;
+}
+
+.composer textarea {
+  display: block;
+  width: 100%;
+  min-height: 40px;
+  padding: 0;
+  border: 0;
+  outline: none;
+  resize: none;
+  color: var(--color-text);
+  background: transparent;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.composer textarea::placeholder {
+  color: var(--color-muted);
+  opacity: 1;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: auto;
+  padding-top: 4px;
+}
+
+.attach {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-purple);
+  font-size: 12px;
+}
+
+.attach:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.send {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 36px;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 9px;
+  color: var(--color-white);
+  background: linear-gradient(105deg, #d50032, #f18700);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.send:hover {
+  filter: brightness(1.07);
+}
+
+.attachment {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  align-self: flex-start;
+  max-width: 100%;
+  margin-block: 6px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  color: var(--color-purple);
+  background: var(--color-purple-light);
+  font-size: 12px;
+}
+
+.attachment span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .composer {
+    margin-top: 22px;
+  }
+
+  .composer textarea {
+    min-height: 65px;
+    font-size: 13px;
+  }
+
+}

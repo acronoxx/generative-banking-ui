@@ -1,0 +1,30 @@
+.logo {
+  display: inline-flex;
+  align-items: center;
+  color: #1b1b20;
+  font-family: Arial, sans-serif;
+  font-size: 35px;
+  line-height: 1;
+  letter-spacing: -.7px;
+  white-space: nowrap;
+}
+
+.logo svg {
+  width: 32px;
+  height: 27px;
+  margin-inline: 4px;
+}
+
+@media (max-width: 600px) {
+  .logo {
+    font-size: 25px;
+    letter-spacing: -1.3px;
+  }
+
+  .logo svg {
+    width: 25px;
+    height: 22px;
+    margin-inline: 3px;
+  }
+
+}
