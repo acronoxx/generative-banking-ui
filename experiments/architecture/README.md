@@ -13,6 +13,22 @@ Les outils métier (`consulter_comptes`, `consulter_transactions`) sont définis
 dans la page (`frontend/src/outils.ts`). Ils sont déclarés au navigateur avec
 WebMCP et transmis à l'agent, qui les appelle ; ils s'exécutent dans la page.
 
+Les composants d'interface sont eux aussi déclarés par la page
+(`frontend/src/catalogue.tsx`) : le catalogue A2UI de base plus des composants
+bancaires (`SoldeCompte`, `Transaction`, `Alerte`). Leur schéma est envoyé à
+l'agent, qui l'ajoute à son prompt et compose l'interface avec l'outil
+`afficher_interface`. Cet outil valide les composants (ids, racine, catalogue,
+propriétés requises) et renvoie les erreurs au modèle pour qu'il corrige.
+Pour ajouter un composant, il suffit d'ajouter sa définition (schéma zod et
+description) et son rendu React dans ce fichier.
+
+Les outils `generate_a2ui` et `render_a2ui` de CopilotKit (option
+`injectA2UITool` du runtime) ne fonctionnent pas avec Gemini :
+`generate_a2ui` lance un sous-agent dans une autre boucle asyncio (« bound to a
+different event loop »), et les arguments de `render_a2ui` ne sont pas diffusés
+en AG-UI (Gemini envoie l'appel d'outil en un seul morceau), donc la surface
+reste en chargement. L'interface passe donc par le résultat de l'outil.
+
 ## Lancement
 
 Créer un fichier `.env` dans ce dossier avec `GOOGLE_API_KEY=...`, puis ouvrir trois terminaux.
@@ -34,6 +50,10 @@ cd frontend; npm run dev
 Ouvrir http://localhost:5173 et demander par exemple : « Montre-moi mes comptes. »
 
 Le runtime CopilotKit met une vingtaine de secondes à démarrer.
+
+Si le quota gratuit de `gemini-3.5-flash-lite` est épuisé (erreur 429), lancer
+l'agent avec un autre modèle : `$env:GEMINI_MODEL="gemini-3.5-flash"` dans le
+terminal 1, avant la commande.
 
 ## WebMCP
 
