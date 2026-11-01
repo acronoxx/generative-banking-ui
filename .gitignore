@@ -1,0 +1,7 @@
+.env
+*.key
+__pycache__/
+.venv/
+results/*.csv
+results/*.jsonl
+results/*.md

@@ -1,0 +1,30 @@
+{
+  "luna_none": {
+    "label": "GPT-6 Luna (effort none)",
+    "model": "azure/{LLM_DEPLOYMENT_LUNA}",
+    "env": {"api_base": "AZURE_API_BASE", "api_key": "AZURE_API_KEY", "api_version": "AZURE_API_VERSION"},
+    "params": {"reasoning_effort": "none"},
+    "price_in": 0.10, "price_out": 0.50
+  },
+  "luna_default": {
+    "label": "GPT-6 Luna (effort par defaut)",
+    "model": "azure/{LLM_DEPLOYMENT_LUNA}",
+    "env": {"api_base": "AZURE_API_BASE", "api_key": "AZURE_API_KEY", "api_version": "AZURE_API_VERSION"},
+    "params": {},
+    "price_in": 0.10, "price_out": 0.50
+  },
+  "sol": {
+    "label": "GPT-6 Sol",
+    "model": "azure/{LLM_DEPLOYMENT_SOL}",
+    "env": {"api_base": "AZURE_API_BASE", "api_key": "AZURE_API_KEY", "api_version": "AZURE_API_VERSION"},
+    "params": {},
+    "price_in": 2.00, "price_out": 10.00
+  },
+  "other": {
+    "label": "Autre fournisseur (a completer avec Sopra)",
+    "model": "azure_ai/{LLM_DEPLOYMENT_OTHER}",
+    "env": {"api_base": "AZURE_OTHER_API_BASE", "api_key": "AZURE_OTHER_API_KEY"},
+    "params": {},
+    "price_in": 0.0, "price_out": 0.0
+  }
+}
