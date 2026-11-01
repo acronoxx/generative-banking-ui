@@ -20,6 +20,9 @@ def complete(entry, messages, tools):
     for k in ("api_base", "api_key", "api_version"):
         if k in env:
             kwargs[k] = os.environ[env[k]]
+        hdr = os.getenv("LLM_AUTH_HEADER")
+    if hdr and "api_key" in env:
+        kwargs["extra_headers"] = {hdr: os.environ[env["api_key"]]}
     kwargs.update(entry.get("params", {}))
     if entry.get("params"):
         # LiteLLM ne connait pas les noms de DEPLOIEMENT Azure personnalises et refuserait ces parametres

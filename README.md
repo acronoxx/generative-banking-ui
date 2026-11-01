@@ -1,6 +1,6 @@
 # Banc d'essai LLM : Gen-UI Bank (projet 28)
 
-Teste un LLM (GPT-6 Luna d'abord, puis d'autres) sur **votre** cas d'usage : outils bancaires sur `bank.sqlite`,
+Teste un LLM (GPT-6 Luna d'abord, puis d'autres) sur certains cas d'usage : outils bancaires sur `bank.sqlite`,
 génération d'UI par un outil `render_ui`, exactitude des chiffres, robustesse (injections), profils, latence, coût.
 Il produit un tableau comparatif et une note sur 100 (critères automatisables).
 
