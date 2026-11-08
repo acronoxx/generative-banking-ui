@@ -98,7 +98,7 @@
   color: var(--color-purple);
 }
 
-.help:hover, .navigation button:hover {
+.help:hover, .navigation a:hover {
   color: var(--color-purple-dark);
 }
 

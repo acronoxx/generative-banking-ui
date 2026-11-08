@@ -5,6 +5,7 @@ export type InformationTopic =
   | 'terms'
   | 'privacy'
   | 'support'
+  | 'profile-service'
 
 type InformationContent = {
   title: string
@@ -12,6 +13,13 @@ type InformationContent = {
 }
 
 export const informationContent: Record<InformationTopic, InformationContent> = {
+  'profile-service': {
+    title: 'Fonctionnalité bientôt disponible',
+    paragraphs: [
+      'Cette action nécessite une connexion aux services de votre banque. Elle n’est pas disponible dans cette démonstration.',
+      'Aucun document officiel n’est généré et aucune modification de carte, de plafond ou de dispositif de sécurité n’est effectuée. Pour une demande réelle, utilisez les coordonnées habituelles de votre banque.',
+    ],
+  },
   help: {
     title: 'Comment utiliser SoprIA ?',
     paragraphs: [

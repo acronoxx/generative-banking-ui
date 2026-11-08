@@ -1,117 +1,179 @@
-# SoprIA — Frontend
+# SoprIA Frontend
 
-Page d’accueil de l’assistant bancaire SoprIA, réalisée avec **React, TypeScript et Vite**. Les composants utilisent des CSS Modules et les styles communs sont regroupés dans `src/styles/`. La refactorisation conserve le contenu, le rendu et les interactions de la démonstration.
+## Project Overview
 
-## Démarrer
+This is a banking assistant frontend built with React and TypeScript. It explores how users can describe banking requests through a conversational interface and view their profile, accounts, and preferences in one application. 
 
-Utilisez Node.js **22.19 ou plus récent** pour les commandes de développement et les tests natifs. Depuis le dossier `frontend` :
+As a single-page application (SPA), it updates conversations and profile content without reloading the browser. 
 
-```sh
-npm install
-npm run dev
-```
+## Technologies Used
 
-Sous PowerShell, si l’exécution de `npm.ps1` est bloquée, utilisez `npm.cmd` à la place de `npm`.
+- **React and React DOM** for components and local state.
+- **TypeScript** for typed data models and component props.
+- **Vite** with the React plugin for development and production builds.
+- **CSS Modules** for component styles, with shared CSS design tokens.
+- **ESLint** with TypeScript, React Hooks, and React Refresh rules.
+- **Node.js built-in test runner** for conversation logic tests.
 
-```sh
-npm run build
-npm run preview
-```
+Navigation uses browser URL hashes and React hooks; no routing library or global state library is installed. Branding and icons use local SVG components.
 
-## Vérifier le projet
+## Current Features
 
-```sh
-npm run lint
-npm test
-npm run build
-```
+### Implemented interface
 
-- `lint` vérifie le code TypeScript et les règles React Hooks.
-- `test` utilise le lanceur intégré de Node.js, sans bibliothèque de test supplémentaire. Les tests couvrent les identités des conversations, les titres, la conservation de l’historique, les messages multilignes et les fichiers joints. Le fichier de test `.mjs` importe directement le module TypeScript avec `--experimental-strip-types` ; les types Node restent hors de la configuration TypeScript du navigateur.
-- `build` lance les vérifications TypeScript existantes avant de générer la version de production dans `dist/`.
+- Create, select, and search conversations; view message history.
+- Prefill messages using four banking quick actions.
+- Send with the button or Enter; use Shift+Enter for a new line.
+- Select or remove an attachment and display its filename.
+- View a profile with personal details, account and card summaries, payment limits, security settings, and advisor information.
+- Edit the demo email, phone, and postal address through a form.
+- Navigate between Home and Profile with an active navigation indicator.
+- Reuse a shared header, footer, help dialogs, icons, and branding.
+- Adapt layouts to desktop, tablet, and mobile, with keyboard focus styles and labeled controls.
 
-## Organisation
+### Demo functionality and limits
+
+Chat replies are predefined, and banking information is fictional. Conversations and profile edits remain in memory across page navigation and reset on browser reload. Attachment contents are neither read nor uploaded. Changed email addresses and phone numbers lose their verification badges.
+
+Document downloads, photo changes, advisor contact, appointments, card controls, payment-limit changes, and security actions display an unavailable-feature message. They do not perform real operations.
+
+### Feature status and remaining work
+
+| Feature | Current status |
+| --- | --- |
+| Banking chatbot | Implemented with predefined responses. |
+| User profile | Implemented using mock data, with local contact edits. |
+| Bank transfer interface | In development; not yet integrated into this React frontend. |
+| Real bank transfers | Awaiting backend integration. |
+
+The transfer quick action currently prefills a message; it does not open a transfer form or send money. AI responses, authentication, persistent storage, official documents, and security verification also await backend integration.
+
+## Project Structure
 
 ```text
 src/
-├── main.tsx                            # Montage React et import des styles globaux
-├── App.tsx                             # Point d’entrée de l’application
-├── pages/
-│   ├── HomePage.tsx                     # Assemblage de la page et état des informations
-│   └── HomePage.module.css
+├── main.tsx                    # Mounts React and imports global styles
+├── App.tsx                     # Shared shell, navigation, information dialogs
 ├── components/
-│   ├── WelcomeSection.tsx              # Section de présentation de l’accueil
-│   ├── WelcomeSection.module.css
-│   ├── InformationDialog.tsx           # Dialogue spécifique aux informations SoprIA
-│   ├── InformationDialog.module.css
-│   ├── brand/                          # BrandLogo, BrandMark et styles du logo
-│   ├── layout/                         # Header, Footer et leurs CSS Modules
-│   └── ui/
-│       └── Icon.tsx                    # Icônes SVG réutilisables et typées
-├── features/
-│   └── assistant/
-│       ├── components/                 # Chaque composant possède son CSS Module
-│       │   ├── ChatWorkspace.tsx
-│       │   ├── ConversationSidebar.tsx
-│       │   ├── AgentToolbar.tsx
-│       │   ├── AgentWelcome.tsx
-│       │   ├── QuickActions.tsx
-│       │   ├── MessageList.tsx
-│       │   └── MessageComposer.tsx
-│       ├── data/
-│       │   └── assistant.data.ts       # Conversations initiales et opérations rapides
-│       ├── hooks/
-│       │   └── useAssistantDemo.ts     # État local et actions de conversation
-│       ├── conversation.ts             # Création des échanges et mise à jour de l’historique
-│       ├── conversation.test.mjs       # Tests des règles de conversation
-│       └── types.ts                    # Message, Conversation et QuickAction
+│   ├── brand/                  # Local logo and brand mark
+│   ├── layout/                 # Shared Header and Footer
+│   ├── ui/                     # Typed SVG icons and reusable Dialog
+│   ├── WelcomeSection.tsx
+│   └── InformationDialog.tsx
 ├── data/
-│   └── information.ts                  # Contenu des fenêtres d’information
-└── styles/
-    ├── global.css                      # Reset, typographie, accessibilité et utilitaires
-    ├── layout.css                      # Structure globale et largeur de page
-    └── tokens.css                      # Couleurs, dégradé et rayons communs
+│   └── information.ts          # Help and informational dialog content
+├── features/
+│   ├── assistant/
+│   │   ├── components/         # Chat, history, quick actions, composer
+│   │   ├── data/               # Initial conversations and action prompts
+│   │   ├── hooks/              # Local conversation state
+│   │   ├── conversation.ts     # Demo exchanges and history updates
+│   │   ├── conversation.test.mjs
+│   │   └── types.ts
+│   └── profile/
+│       ├── components/         # Profile sections and edit dialog
+│       ├── data/               # Mock profile and data access adapter
+│       ├── hooks/              # Loading, retry, and local edits
+│       ├── format.ts           # Date and currency formatting
+│       └── types.ts
+├── pages/                      # HomePage and ProfilePage assembly
+└── styles/                     # Global styles, layout, and tokens.css
 ```
 
-Les SVG de marque restent dans `components/brand/` : ils sont déjà des composants locaux réutilisables. Aucun dossier `assets/`, `services/` ou `utils/` vide n’est nécessaire.
+Feature logic stays in `features/`; pages assemble it with shared `components/`. Component styles use `.module.css` files. `main.tsx` imports `styles/global.css`, which loads shared layout rules and design tokens.
 
-`pages/` contient les pages complètes. `WelcomeSection` reste un composant de présentation spécifique à l’application dans le dossier `components/` existant, avec son CSS Module ; aucun sous-dossier supplémentaire n’est nécessaire.
+## Installation and Setup
 
-### Responsabilités
+Recommended: **Node.js 22.19 or later** and npm, verified locally with Node.js 22.19.0. This satisfies the installed Vite requirement (`^20.19.0 || >=22.12.0`) and supports the tests' `--experimental-strip-types` flag. The project does not currently declare a Node.js version in `package.json`.
 
-| Élément | Rôle |
+1. Replace `<repository-url>` with your team's repository URL and clone it:
+
+   ```sh
+   git clone <repository-url> sopria
+   ```
+
+2. Enter the frontend directory:
+
+   ```sh
+   cd sopria/frontend
+   ```
+
+3. Install the versions recorded in `package-lock.json`:
+
+   ```sh
+   npm ci
+   ```
+
+4. Start the development server:
+
+   ```sh
+   npm run dev
+   ```
+
+5. Open the local URL printed by Vite, normally `http://localhost:5173`.
+
+No environment variables or backend credentials are required for the current demo. If PowerShell blocks `npm.ps1`, use `npm.cmd` in place of `npm`.
+
+Use `npm install` instead when intentionally adding or updating dependencies, and include the resulting lockfile changes in your branch.
+
+Run these commands from `frontend/`:
+
+| Command | Purpose |
 | --- | --- |
-| `HomePage` | Assemble le header, l’introduction, l’assistant et le footer ; choisit le sujet du dialogue d’information. |
-| `Header` / `Footer` | Affichent la navigation et déclenchent les informations via des callbacks. |
-| `WelcomeSection` | Affiche le titre, le texte d’introduction et le symbole de marque. |
-| `ChatWorkspace` | Assemble l’interface de conversation, utilise le hook et gère le focus de la saisie. |
-| `ConversationSidebar` | Affiche l’historique ; garde la recherche et son filtre dans son propre état local. |
-| `AgentToolbar` / `AgentWelcome` | Présentent le sélecteur et le message d’accueil de l’assistant. |
-| `QuickActions` | Affiche les actions issues des données statiques et transmet le prompt choisi. |
-| `MessageList` | Affiche les messages et fait défiler le dernier message dans la zone visible. |
-| `MessageComposer` | Gère le formulaire, les raccourcis clavier et le champ fichier natif ; reçoit le brouillon et la pièce jointe par props. |
-| `useAssistantDemo` | Possède les conversations, la sélection, le brouillon et la pièce jointe ; expose les actions sans dépendre du DOM. |
-| `conversation.ts` | Crée les identités et les réponses de démonstration ; ajoute les échanges sans modifier l’historique précédent. |
-| `InformationDialog` | Affiche les contenus SoprIA et synchronise le dialogue HTML natif avec le sujet sélectionné. |
+| `npm run dev` | Start the Vite development server. |
+| `npm run lint` | Check TypeScript/TSX code and React rules with ESLint. |
+| `npm test` | Run the conversation logic tests with Node.js. |
+| `npm run build` | Run TypeScript checks and generate `dist/`. |
+| `npm run preview` | Serve the generated build locally after building. |
 
-Les styles spécifiques restent à côté du composant. `global.css` est importé une seule fois dans `main.tsx` et charge les tokens et la structure commune. Les listes reçues par les composants de présentation sont typées en lecture seule.
+## How the Application Works
 
-Les cartes d’action et les lignes de conversation restent dans leurs listes respectives : un composant supplémentaire pour chaque bouton n’apporterait pas de responsabilité distincte. Aucun store global, contexte ou nouvel outil de routage n’a été ajouté.
+**Homepage:** `HomePage` displays the introduction and `ChatWorkspace`. The workspace combines conversation history, quick actions, messages, and the composer. `useAssistantDemo` manages local state; `conversation.ts` creates predefined replies and updates history. Quick actions only fill the input. Sending a message replaces the quick-action area with the conversation's messages.
 
-## Interactions disponibles
+**Navigation:** `App.tsx` listens for hash changes. `#/accueil` opens Home, `#/profil` opens Profile, and links such as `#/profil/securite` target profile sections. Both pages remain mounted, preserving their local state while switching views. Browser back and forward work without a full reload.
 
-- Création, sélection et recherche de conversations.
-- Préremplissage de la saisie par les quatre opérations rapides.
-- Envoi avec le bouton ou la touche Entrée ; Maj + Entrée pour un retour à la ligne.
-- Sélection et retrait d’un fichier joint ; seul son nom est affiché.
-- Fenêtres d’aide, profil, guide des prompts et informations du pied de page.
-- Mise en page adaptée au bureau, à la tablette et au mobile.
-- Navigation clavier, indicateurs de focus, libellés accessibles et dialogues natifs.
+**Profile:** `useProfile` loads the mock profile through `getUserProfile`. Typed display components render the overview, personal information, banking preferences, and security cards. Loading, error/retry, and empty-profile states are included. The edit dialog updates local contact details; service-dependent actions open an information dialog.
 
-## Périmètre frontend
+## Mock Data and Future Backend Integration
 
-Aucun backend, appel API, authentification ou opération bancaire réelle. Les conversations restent uniquement en mémoire et disparaissent au rechargement. Aucun contenu de fichier n’est lu ou envoyé. Les réponses affichées indiquent explicitement qu’il s’agit d’une démonstration.
+Mock data lets the team develop the interface without a banking service:
 
-Lors de l’ajout d’un backend, introduisez un service API dans la fonctionnalité `assistant` et appelez-le depuis le hook en ajoutant les états de chargement et d’erreur. Les réponses locales actuelles sont dans `features/assistant/conversation.ts` ; les composants de présentation peuvent conserver leurs responsabilités.
+- `src/features/assistant/data/assistant.data.ts`: initial conversations and quick-action prompts.
+- `src/features/assistant/conversation.ts`: predefined assistant replies.
+- `src/features/profile/data/profile.mock.ts`: fictional profile, accounts, card, limits, preferences, security, and advisor data.
+- `src/data/information.ts`: shared informational text.
 
-Le logo est une reproduction SVG locale de la référence. Il peut être remplacé par les fichiers officiels dans `components/brand/`.
+Each feature defines its models in `types.ts`, and presentation components consume typed props. To connect profile data, replace the mock adapter in `src/features/profile/data/profile.repository.ts` with an API client and connect contact updates in `useProfile` to backend persistence and validation. For chat, introduce service calls through `useAssistantDemo` with loading and error handling.
+
+Authentication, authorization, banking validation, and persistence still require backend implementation. The frontend currently does not store banking data in `localStorage`.
+
+## Development Guidelines
+
+- Follow the existing feature folders and keep pages focused on assembly.
+- Reuse shared components before introducing new ones.
+- Define TypeScript models and keep mock data separate from UI code.
+- Use CSS Modules and `src/styles/tokens.css` for consistent styling.
+- Keep state near the feature that owns it and avoid duplicated logic.
+- Keep demo behavior explicit; do not imply that banking operations succeeded.
+- Before pushing, run `npm run lint`, `npm test`, and `npm run build`. Check both pages and responsive layouts when changing the UI.
+
+The current automated tests cover conversation identities, titles, history, multiline messages, and attachment metadata; they are not a complete UI test suite.
+
+## Git Workflow
+
+Each contributor works on a dedicated feature branch. From the repository root, create one from the team's agreed base:
+
+```sh
+git switch <agreed-base-branch>
+git switch -c feature/short-description
+```
+
+To resume it later, use `git switch feature/short-description`. After running the checks, commit your changes and push your branch to GitHub:
+
+```sh
+git add <changed-files>
+git commit -m "Describe the change"
+git push -u origin feature/short-description
+```
+
+Open a pull request against the team's agreed target branch when ready for review.

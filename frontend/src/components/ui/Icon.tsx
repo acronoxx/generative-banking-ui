@@ -4,8 +4,19 @@ export type IconName =
   | 'agent' | 'arrow-up' | 'arrow-right' | 'arrow-up-right' | 'bank'
   | 'card-lock' | 'check' | 'chevron-down' | 'close' | 'file'
   | 'help' | 'lightbulb' | 'paperclip' | 'plus' | 'search' | 'transfer' | 'user'
+  | 'shield' | 'phone' | 'password' | 'edit' | 'download' | 'camera' | 'calendar' | 'mail' | 'bell' | 'card'
 
 const paths: Record<IconName, ReactNode> = {
+  shield: <path d="m12 2 8 3v6c0 5-4 9-8 11-4-2-8-6-8-11V5l8-3Zm-4 9 3 3 5-5" />,
+  phone: <path d="M7 2h10v20H7V2Zm0 3h10M11 19h2" />,
+  password: <path d="M3 10h18M5 14v4m-2-2h4m5-2v4m-2-2h4m5-2v4m-2-2h4" />,
+  edit: <path d="m15 3 6 6M4 14 17 1l6 6L10 20l-8 2 2-8Z" />,
+  download: <path d="M12 2v13m-5-5 5 5 5-5M4 16v5h16v-5" />,
+  camera: <><path d="M3 6h4l2-3h6l2 3h4v15H3V6Z" /><circle cx="12" cy="13" r="4" /></>,
+  calendar: <path d="M4 5h16v17H4V5Zm3-3v6m10-6v6M4 10h16m-12 4h2m4 0h2m-8 4h2" />,
+  mail: <path d="M2 4h20v16H2V4Zm0 1 10 8L22 5" />,
+  bell: <path d="M4 18h16l-2-4V8A6 6 0 0 0 6 8v6l-2 4Zm6 3h4M12 1v1" />,
+  card: <path d="M2 4h20v16H2V4Zm0 5h20M5 15h5" />,
   agent: <><circle cx="12" cy="7" r="3" /><path d="M6 9V7a6 6 0 0 1 12 0v2M5 8v4h3V8zm11 0v4h3V8zM12 14c-4 0-7 2-7 5v3h14v-3c0-3-3-5-7-5ZM18 12c0 2-2 2-4 2" /></>,
   'arrow-up': <path d="M12 20V4m-6 6 6-6 6 6" />,
   'arrow-right': <path d="M4 12h16m-6-6 6 6-6 6" />,
