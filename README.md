@@ -96,9 +96,6 @@ relisez ~10 réponses (niveau 7) à partir des traces.
 
 ## 8. Ce que cet outil ne fait pas (à savoir)
 
-- **Il n'a été testé qu'avec des faux modèles** (`--mock`), qui ont validé la mécanique et le scoring, et avec une fausse adresse
-  pour le chemin d'erreur. **Aucun vrai appel à Luna n'a été fait** : le premier vrai lancement peut demander des ajustements
-  (paramètres acceptés par votre déploiement, version d'API). C'est le rôle du `smoke`.
 - Piège déjà rencontré : LiteLLM refuse `reasoning_effort` pour un nom de déploiement Azure inconnu. C'est géré dans `llm.py`
   (`allowed_openai_params`). Si Azure refuse le mode strict de `render_ui`, lancez avec `BENCH_STRICT_UI=0`.
 - Le catalogue de composants et le schéma sont **une proposition**, à aligner avec Maxandre (design system) et Alexis (A2UI).
