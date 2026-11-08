@@ -7,7 +7,7 @@ from .llm import complete
 from .tools import TOOL_SCHEMAS
 
 HINTS = {"UnsupportedParamsError": "LiteLLM refuse un parametre : verifier allowed_openai_params dans bench/llm.py.",
-         "reasoning_effort": "Le parametre reasoning_effort est refuse : essayez le modele 'luna_default' (sans le parametre) ou l'API Responses.",
+         "reasoning_effort": "Function calling refuse avec un effort de raisonnement : utiliser luna_none (effort none) ou l'API Responses.",
          "401": "Cle refusee : verifiez AZURE_API_KEY.", "404": "Deploiement introuvable : verifiez LLM_DEPLOYMENT_* (nom du DEPLOIEMENT) et AZURE_API_BASE.",
          "content_filter": "Bloque par le filtre de contenu Azure : a noter comme resultat de test.",
          "api_version": "Version d'API refusee : demandez la bonne a M. Gauthier."}

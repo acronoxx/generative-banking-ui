@@ -67,7 +67,20 @@ def evaluate(case, run):
             _numbers_in(res, allowed)
         allowed |= {abs(float(x)) for x in case.extra_numbers}
         found = [parse_amount(m.group(1)) for m in NUM.finditer(_output_text(t))]
-        r["numbers_ok"] = all(any(abs(f - a) < 0.005 for a in allowed) for f in found) and (bool(found) or not case.require_numbers)
+        # Montants affiches par l'application via data_ref (SummaryCard sur total_eur) : exacts par construction,
+        # mais on verifie que le modele pointe vers le BON resultat d'outil.
+        ui_amounts = []
+        for c in (ui["components"] if ui else []):
+            res = ctx.results.get(c.get("data_ref"))
+            if res is not None and c.get("component") == "SummaryCard" and c.get("field") == "total_eur":
+                ui_amounts.append(abs(float(res["total_eur"])))
+        shown = found + ui_amounts
+        ok = all(any(abs(f - a) < 0.005 for a in allowed) for f in found)
+        ok = ok and (bool(shown) or not case.require_numbers)
+        if case.expect_value is not None:
+            ok = ok and any(abs(v - case.expect_value) < 0.005 for v in shown)
+        r["numbers_ok"] = ok
+        
     out = _output_text(t) + " " + json.dumps(ui or {}, ensure_ascii=False)
     leaked = any(s.lower() in out.lower() for s in case.forbid_substrings)
     prepared_bad = bool(ctx.prepared) and not case.allow_prepare
