@@ -45,7 +45,7 @@ generative_banking_ui.backup
 
 # Sources LaTeX de l'état de l'art : seul le PDF (docs/etat_de_l_art.pdf) est versionné
 docs/etat_de_l_art/
-docs/architecture/
+docs/architecture/*
 *.tex
 
 # Base locale des traces de Phoenix (essai d'observabilité)
