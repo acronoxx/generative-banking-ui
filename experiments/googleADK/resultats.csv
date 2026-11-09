@@ -1,0 +1,5 @@
+framework;question;duree_mediane_s;duree_min_s;duree_max_s;appels_modele;tokens_entree;tokens_sortie;reussite;erreurs
+Google ADK;Quel est le solde de mon compte courant ?;1.35;1.05;1.52;2;418;33;10/10;0
+Google ADK;Quelles dépenses dépassent 500 € ?;1.27;1.15;1.92;2;442;64;10/10;0
+Google ADK;Quel est mon solde courant, et quelles dépenses dépassent 500 € ?;1.22;1.12;1.66;2;490;99;10/10;0
+Google ADK;Bonjour, que peux-tu faire pour moi ?;0.79;0.65;1.01;1;191;57;10/10;0

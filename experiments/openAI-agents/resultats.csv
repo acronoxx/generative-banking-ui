@@ -1,0 +1,5 @@
+framework;question;duree_mediane_s;duree_min_s;duree_max_s;appels_modele;tokens_entree;tokens_sortie;reussite;erreurs
+OpenAI Agents SDK;Quel est le solde de mon compte courant ?;1.08;0.88;3.55;2;388;33;10/10;0
+OpenAI Agents SDK;Quelles dépenses dépassent 500 € ?;1.14;0.97;1.71;2;412;61;10/10;0
+OpenAI Agents SDK;Quel est mon solde courant, et quelles dépenses dépassent 500 € ?;1.28;1.07;1.74;2;461;99;10/10;0
+OpenAI Agents SDK;Bonjour, que peux-tu faire pour moi ?;0.75;0.63;1.02;1;176;54;10/10;0

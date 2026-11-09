@@ -1,0 +1,5 @@
+framework;question;duree_mediane_s;duree_min_s;duree_max_s;appels_modele;tokens_entree;tokens_sortie;reussite;erreurs
+LangChain.js;Quel est le solde de mon compte courant ?;1.00;0.92;1.27;2;322;33;10/10;0
+LangChain.js;Quelles dépenses dépassent 500 € ?;1.18;1.02;5.65;2;346;67;10/10;0
+LangChain.js;Quel est mon solde courant, et quelles dépenses dépassent 500 € ?;1.32;1.17;1.75;2;452;99;10/10;0
+LangChain.js;Bonjour, que peux-tu faire pour moi ?;0.77;0.62;1.10;1;143;54;10/10;0

@@ -1,0 +1,5 @@
+framework;question;duree_mediane_s;duree_min_s;duree_max_s;appels_modele;tokens_entree;tokens_sortie;reussite;erreurs
+Microsoft Agent Framework;Quel est le solde de mon compte courant ?;1.13;0.91;1.90;2;388;33;10/10;0
+Microsoft Agent Framework;Quelles dépenses dépassent 500 € ?;1.08;0.95;1.33;2;412;67;10/10;0
+Microsoft Agent Framework;Quel est mon solde courant, et quelles dépenses dépassent 500 € ?;1.26;1.07;2.38;2;460;99;10/10;0
+Microsoft Agent Framework;Bonjour, que peux-tu faire pour moi ?;0.75;0.53;1.02;1;176;56;10/10;0
