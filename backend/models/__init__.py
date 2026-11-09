@@ -8,6 +8,8 @@ from .subscriptions import Subscription
 from .cards import Card
 from .categories import Category
 from .transactions import BankTransaction
+from .user_sessions import UserSession
+from .audit_log import AuditLog
 __all__ = [
     "Customer",
     "Advisor",
@@ -17,6 +19,6 @@ __all__ = [
     "Subscription",
     "Card",
     "Category",
-    "BankTransaction"
+    "BankTransaction","UserSession","AuditLog"
 ]
 

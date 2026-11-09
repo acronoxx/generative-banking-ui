@@ -10,7 +10,7 @@ Two parts are mounted, both calling the same services (app/services/):
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
-
+from app.api.auth import router as auth_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -21,16 +21,22 @@ async def lifespan(app: FastAPI):
     """
     raise NotImplementedError
 
-
 def create_app() -> FastAPI:
-    """Create the backend application.
+    """Create the backend application."""
 
-    1. include the routers of app/api/ under /api (auth, accounts, transactions,
-       transfers, products, advisors);
-    2. mount the MCP server under /mcp (app.mount("/mcp", mcp.streamable_http_app()),
-       the server being declared with streamable_http_path="/").
-    """
-    raise NotImplementedError
+    app = FastAPI(
+        title="Generative Banking API",
+        description="Backend API for our AI-native banking application",
+        version="0.1.0"
+    )
+    app.include_router(auth_router, prefix="/api")
+    @app.get("/health")
+    def health():
+        return {"status": "ok"}
+
+    return app
 
 
-# app = create_app()
+app = create_app()
+
+
