@@ -49,3 +49,5 @@ docs/etat_de_l_art/
 
 # Base locale des traces de Phoenix (essai d'observabilité)
 experiments/observabilite/donnees-phoenix/
+
+.ruff_cache/
